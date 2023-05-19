@@ -7,15 +7,22 @@
 #include <vector>
 #include <mutex>
 #include <optional>
+#include <chrono>
+#include <map>
 
 using std::shared_ptr;
 using std::unique_ptr;
+using std::chrono::duration;
+using std::chrono::seconds;
 
 struct CollectedData
 {
 public:
 	unsigned int rejectedCustomerCount = 0;
 	unsigned int acceptedCustomerCount = 0;
+	duration<float> totalWaitTime = seconds(0);  // суммарное время ожидания (очередь + касса) всех клиентов
+	duration<float> actualWorkTimeAcrossCheckouts = seconds(0);
+	duration<float> totalOperationTimeAcrossCheckouts = seconds(0);
 };
 
 class Shop
@@ -30,9 +37,13 @@ private:
 	std::queue<shared_ptr<Customer>> _queue;
 	unsigned int _queueMaxLength;
 	CollectedData _data;
+	std::map<int, std::chrono::time_point<std::chrono::steady_clock>> _customerIncomeTimeTable;
+	milliseconds _checkoutItemProcessDuration;
 
 	void workCycle();
 	std::optional<shared_ptr<Checkout>> findFreeCheckout();
+
+	void calculateAndSaveWaitTimeFor(const shared_ptr<Customer>& customer);
 
 public:
 	Shop(unsigned int checkoutCount,
@@ -50,5 +61,7 @@ public:
     */
 	bool tryEnqueue(const shared_ptr<Customer>& customer);
 	void handleCustomer(const shared_ptr<Customer>& newCustomer);
-	CollectedData& getData();
+	[[nodiscard]] std::optional<CollectedData> getData() const;
+	void stopIfWorking();
+	[[nodiscard]] bool isWorking() const;
 };
