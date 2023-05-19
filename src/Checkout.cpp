@@ -1,8 +1,4 @@
 #include "Checkout.h"
-#include <iostream>
-
-using std::cout;
-using std::endl;
 
 Checkout::Checkout(int id, milliseconds itemProcessDuration)
 	: _id(id)
