@@ -8,6 +8,7 @@
 #include <mutex>
 
 using std::chrono::milliseconds;
+using std::chrono::duration;
 using std::shared_ptr;
 
 class Checkout
@@ -21,6 +22,9 @@ private:
 	std::thread _thread;
 	std::mutex _mutex;
 
+	duration<float> _totalOperationTime;
+	duration<float> _actualWorkTime;
+
 	void workCycle();
 
 public:
@@ -30,5 +34,9 @@ public:
 
 	[[nodiscard]] bool isBusy() const;
 	[[nodiscard]] int getId() const;
+	[[nodiscard]] duration<float> getTotalOperationTime() const;
+	[[nodiscard]] duration<float> getActualWorkTime() const;
+
 	void serve(const shared_ptr<Customer> &customer);
+	void stopIfWorking();
 };
