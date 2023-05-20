@@ -2,9 +2,9 @@ name: GHA-frac-Release
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "actions_work" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "actions_work" ]
   workflow_dispatch:
 
 jobs:
