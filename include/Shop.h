@@ -46,13 +46,6 @@ private:
 
 	void calculateAndSaveWaitTimeFor(const shared_ptr<Customer>& customer);
 
-public:
-	Shop(unsigned int checkoutCount,
-		 milliseconds checkoutItemProcessDuration,
-		 unsigned int queueMaxLength);
-
-	~Shop();
-
 	/**
      * Предпринимает попытку добавить очередного клиента в очередь.
      * Если не достигнут %_queueMaxLength, клиент добавляется в очередь;
@@ -61,6 +54,13 @@ public:
      * @return true, если добавить в очередь удалось; иначе false.
     */
 	bool tryEnqueue(const shared_ptr<Customer>& customer);
+
+public:
+	Shop(unsigned int checkoutCount,
+		 milliseconds checkoutItemProcessDuration,
+		 unsigned int queueMaxLength);
+	~Shop();
+
 	void handleCustomer(const shared_ptr<Customer>& newCustomer);
 	[[nodiscard]] std::optional<CollectedData> getData() const;
 	void stopIfWorking();
