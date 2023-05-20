@@ -23,6 +23,7 @@ public:
 	duration<float> totalWaitTime = seconds(0);  // суммарное время ожидания (очередь + касса) всех клиентов
 	duration<float> actualWorkTimeAcrossCheckouts = seconds(0);
 	duration<float> totalOperationTimeAcrossCheckouts = seconds(0);
+	std::vector<unsigned int> queueSizeSamples;
 };
 
 class Shop

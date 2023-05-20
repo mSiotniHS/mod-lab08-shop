@@ -58,9 +58,18 @@ void Shop::handleCustomer(const shared_ptr<Customer> &newCustomer)
 
 void Shop::workCycle()
 {
+	auto lastSampleMoment = std::chrono::steady_clock::now();
+
 	while (_shouldWork || !_queue.empty())
 	{
 		if (!_shouldStart) continue;
+
+		auto now = std::chrono::steady_clock::now();
+		if (now - lastSampleMoment > std::chrono::seconds(1))
+		{
+			_data.queueSizeSamples.push_back(_queue.size());
+			lastSampleMoment = now;
+		}
 
 		auto maybeCheckout = findFreeCheckout();
 
