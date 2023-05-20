@@ -16,10 +16,4 @@ public:
 			double serviceRate,
 			unsigned int channelCount,
 			unsigned int queueMaxLength);
-
-private:
-	static long unsigned int factorial(unsigned int n);
-
-	static double pow(double x, unsigned int n);
-	static unsigned int pow(unsigned int x, unsigned int n);
 };
