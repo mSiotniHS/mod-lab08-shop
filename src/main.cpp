@@ -40,7 +40,11 @@ int main()
 	shop.stopIfWorking();
 	auto data = shop.getData();
 
-	auto theoreticalStats = Calculator::calculateStats(arrivalRate, serviceRate, checkoutCount, queueMaxLength);
+	auto theoreticalStats = Calculator::calculateStats(
+		arrivalRate,
+		serviceRate * checkoutCount / avgItemCount,
+		checkoutCount,
+		queueMaxLength);
 	std::cout << "\nTHEORY:\n"
 	          << "rejection probability: " << theoreticalStats.rejectionProbability << '\n'
 	          << "relative throughput: " << theoreticalStats.relativeThroughput << '\n'
