@@ -5,14 +5,16 @@ set(header
 		${header_path}/Checkout.h
 		${header_path}/Shop.h
 		${header_path}/TimedCaller.h
-		${header_path}/Calculator.h)
+		${header_path}/Calculator.h
+		${header_path}/Math.h)
 set(src
 		Customer.cpp
 		CustomerSpawner.cpp
 		Checkout.cpp
 		Shop.cpp
 		TimedCaller.cpp
-		Calculator.cpp)
+		Calculator.cpp
+		Math.cpp)
 
 
 
