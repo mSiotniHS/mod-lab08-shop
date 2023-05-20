@@ -115,7 +115,7 @@ TEST(CheckoutTests, scenario1)
 	checkout.serve(std::make_shared<Customer>(Customer(1, 5)));
 	ASSERT_THAT(checkout.isBusy(), Eq(true));
 
-	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+	std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 
 	ASSERT_THAT(checkout.isBusy(), Eq(false));
 	auto workEnd = std::chrono::steady_clock::now();
@@ -126,7 +126,7 @@ TEST(CheckoutTests, scenario1)
 	auto operationTime = std::chrono::duration_cast<duration<double>>(operationEnd - operationBegin);
 	auto workTime = std::chrono::duration_cast<duration<double>>(workEnd - workBegin);
 
-	ASSERT_THAT(operationTime.count(), DoubleNear(5.5, 0.2));
+	ASSERT_THAT(operationTime.count(), DoubleNear(7.6, 0.2));
 	ASSERT_THAT(workTime.count(), AllOf(Ge(2), Le(3)));
 }
 //endregion
