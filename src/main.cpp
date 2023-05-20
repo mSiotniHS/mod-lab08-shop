@@ -53,6 +53,7 @@ int main()
 	std::cout << "\nDATA:\n"
 	          << "rejected customer count: " << data->rejectedCustomerCount << '\n'
 	          << "accepted customer count: " << data->acceptedCustomerCount << '\n'
+	          << "avg queue length: " << (double) std::reduce(data->queueSizeSamples.begin(), data->queueSizeSamples.end()) / data->queueSizeSamples.size()  << '\n'
 	          << "avg client service time (queue + checkout): " << (data->totalWaitTime / data->acceptedCustomerCount).count() << "s\n"
 	          << "avg checkout work time: " << (data->actualWorkTimeAcrossCheckouts / checkoutCount).count() << "s\n"
 	          << "avg checkout idle time: " << ((data->totalOperationTimeAcrossCheckouts - data->actualWorkTimeAcrossCheckouts) / checkoutCount).count() << "s\n";
