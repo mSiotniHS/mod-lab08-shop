@@ -9,7 +9,7 @@ int main()
 {
 	constexpr unsigned int checkoutCount = 2;
 	constexpr double arrivalRate = 5;
-	constexpr double serviceRate = 2;
+	constexpr double serviceRate = 2;  // одного товара
 	constexpr double avgItemCount = 5;
 	constexpr unsigned int queueMaxLength = 5;
 
@@ -32,7 +32,7 @@ int main()
 
 	TimedCaller caller{};
 	caller.Call(
-		[&] { spawner.spawn(); },
+		[&spawner] { spawner.spawn(); },
 		workDuration,
 		timeout
 	);
@@ -43,8 +43,8 @@ int main()
 	auto theoreticalStats = Calculator::calculateStats(arrivalRate, serviceRate, checkoutCount, queueMaxLength);
 	std::cout << "\nTHEORY:\n"
 	          << "rejection probability: " << theoreticalStats.rejectionProbability << '\n'
-			  << "relative throughput: " << theoreticalStats.relativeThroughput << '\n'
-			  << "absolute throughput: " << theoreticalStats.absoluteThroughput << '\n';
+	          << "relative throughput: " << theoreticalStats.relativeThroughput << '\n'
+	          << "absolute throughput: " << theoreticalStats.absoluteThroughput << '\n';
 
 	std::cout << "\nDATA:\n"
 	          << "rejected customer count: " << data->rejectedCustomerCount << '\n'
