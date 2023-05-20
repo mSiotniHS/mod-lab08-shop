@@ -30,23 +30,23 @@ TEST(TimedCallerTests, worksAsExpected)
 		std::chrono::seconds(1)
 	);
 
-	EXPECT_THAT(i, Eq(10));
+	ASSERT_THAT(i, Eq(10));
 }
 //endregion
 
 //region Math Tests
 TEST(MathTests, factorialWorksAsExpected)
 {
-	EXPECT_THAT(Math::factorial(0), Eq(1));
-	EXPECT_THAT(Math::factorial(1), Eq(1));
-	EXPECT_THAT(Math::factorial(8), Eq(40320));
+	ASSERT_THAT(Math::factorial(0), Eq(1));
+	ASSERT_THAT(Math::factorial(1), Eq(1));
+	ASSERT_THAT(Math::factorial(8), Eq(40320));
 }
 
 TEST(MathTests, powWorksAsExpected)
 {
-	EXPECT_THAT(Math::pow(5u, 0), Eq(1));
-	EXPECT_THAT(Math::pow(5u, 1), Eq(5));
-	EXPECT_THAT(Math::pow(5u, 3), Eq(125));
+	ASSERT_THAT(Math::pow(5u, 0), Eq(1));
+	ASSERT_THAT(Math::pow(5u, 1), Eq(5));
+	ASSERT_THAT(Math::pow(5u, 3), Eq(125));
 }
 //endregion
 
@@ -57,9 +57,9 @@ TEST(CalculatorTests, worksAsExpected)
 
 	double rejectionProbabilityByHand = (double) 1 / 183;
 
-	EXPECT_THAT(stats.rejectionProbability, DoubleEq(rejectionProbabilityByHand));
-	EXPECT_THAT(stats.relativeThroughput, DoubleEq(1 - rejectionProbabilityByHand));
-	EXPECT_THAT(stats.absoluteThroughput, DoubleEq(4 * (1 - rejectionProbabilityByHand)));
+	ASSERT_THAT(stats.rejectionProbability, DoubleEq(rejectionProbabilityByHand));
+	ASSERT_THAT(stats.relativeThroughput, DoubleEq(1 - rejectionProbabilityByHand));
+	ASSERT_THAT(stats.absoluteThroughput, DoubleEq(4 * (1 - rejectionProbabilityByHand)));
 }
 //endregion
 
@@ -68,8 +68,8 @@ TEST(CustomerTests, ctorCreatesExpectedObject)
 {
 	Customer customer(1, 5);
 
-	EXPECT_THAT(customer.getId(), Eq(1));
-	EXPECT_THAT(customer.getItemCount(), Eq(5));
+	ASSERT_THAT(customer.getId(), Eq(1));
+	ASSERT_THAT(customer.getItemCount(), Eq(5));
 }
 //endregion
 
@@ -82,8 +82,8 @@ TEST(CustomerSpawnerTests, spawnWorksAsExpected)
 
 	CustomerSpawner spawner(
 		[&](const Customer& customer) {
-			EXPECT_THAT(customer.getItemCount(), AllOf(Ge(2), Le(8)));
-			EXPECT_THAT(customer.getId(), Eq(customerCount));
+			ASSERT_THAT(customer.getItemCount(), AllOf(Ge(2), Le(8)));
+			ASSERT_THAT(customer.getId(), Eq(customerCount));
 			customerCount++;
 		},
 		randomDevice(),
@@ -97,7 +97,7 @@ TEST(CustomerSpawnerTests, spawnWorksAsExpected)
 	spawner.spawn();
 	spawner.spawn();
 
-	EXPECT_THAT(customerCount, Eq(5));
+	ASSERT_THAT(customerCount, Eq(5));
 }
 //endregion
 
@@ -106,18 +106,18 @@ TEST(CheckoutTests, scenario1)
 {
 	Checkout checkout(1, milliseconds(500));
 	auto operationBegin = std::chrono::steady_clock::now();
-	EXPECT_THAT(checkout.getId(), Eq(1));
-	EXPECT_THAT(checkout.isBusy(), Eq(false));
+	ASSERT_THAT(checkout.getId(), Eq(1));
+	ASSERT_THAT(checkout.isBusy(), Eq(false));
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(2500));
 
 	auto workBegin = std::chrono::steady_clock::now();
 	checkout.serve(std::make_shared<Customer>(Customer(1, 5)));
-	EXPECT_THAT(checkout.isBusy(), Eq(true));
+	ASSERT_THAT(checkout.isBusy(), Eq(true));
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(2750));
 
-	EXPECT_THAT(checkout.isBusy(), Eq(false));
+	ASSERT_THAT(checkout.isBusy(), Eq(false));
 	auto workEnd = std::chrono::steady_clock::now();
 
 	checkout.stopIfWorking();
@@ -126,8 +126,8 @@ TEST(CheckoutTests, scenario1)
 	auto operationTime = std::chrono::duration_cast<duration<double>>(operationEnd - operationBegin);
 	auto workTime = std::chrono::duration_cast<duration<double>>(workEnd - workBegin);
 
-	EXPECT_THAT(operationTime.count(), DoubleNear(5.2, 0.2));
-	EXPECT_THAT(workTime.count(), AllOf(Ge(2), Le(3)));
+	ASSERT_THAT(operationTime.count(), DoubleNear(5.2, 0.2));
+	ASSERT_THAT(workTime.count(), AllOf(Ge(2), Le(3)));
 }
 //endregion
 
@@ -135,18 +135,18 @@ TEST(CheckoutTests, scenario1)
 TEST(ShopTests, scenario1)
 {
 	Shop shop(2, milliseconds(500), 2);
-	EXPECT_THAT(shop.isWorking(), Eq(true));
-	EXPECT_THAT(shop.getData(), Eq(std::nullopt));
+	ASSERT_THAT(shop.isWorking(), Eq(true));
+	ASSERT_THAT(shop.getData(), Eq(std::nullopt));
 
 	shop.stopIfWorking();
 
-	EXPECT_THAT(shop.isWorking(), Eq(false));
-	EXPECT_THAT(shop.getData(), Ne(std::nullopt));
+	ASSERT_THAT(shop.isWorking(), Eq(false));
+	ASSERT_THAT(shop.getData(), Ne(std::nullopt));
 
 	auto data = shop.getData().value();
 
-	EXPECT_THAT(data.rejectedCustomerCount, Eq(0));
-	EXPECT_THAT(data.acceptedCustomerCount, Eq(0));
+	ASSERT_THAT(data.rejectedCustomerCount, Eq(0));
+	ASSERT_THAT(data.acceptedCustomerCount, Eq(0));
 }
 
 TEST(ShopTests, scenario2)
@@ -167,8 +167,8 @@ TEST(ShopTests, scenario2)
 
 	auto data = shop.getData().value();
 
-	EXPECT_THAT(data.acceptedCustomerCount, Eq(4));
-	EXPECT_THAT(data.rejectedCustomerCount, Eq(1));
-	EXPECT_THAT((double) std::reduce(data.queueSizeSamples.begin(), data.queueSizeSamples.end()) / data.queueSizeSamples.size(), DoubleNear(1.8, 0.2));
+	ASSERT_THAT(data.acceptedCustomerCount, Eq(4));
+	ASSERT_THAT(data.rejectedCustomerCount, Eq(1));
+	ASSERT_THAT((double) std::reduce(data.queueSizeSamples.begin(), data.queueSizeSamples.end()) / data.queueSizeSamples.size(), DoubleNear(1.8, 0.2));
 }
 //endregion
