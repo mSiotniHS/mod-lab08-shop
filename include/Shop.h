@@ -6,7 +6,6 @@
 #include <queue>
 #include <vector>
 #include <mutex>
-#include <optional>
 #include <chrono>
 #include <map>
 
@@ -17,7 +16,6 @@ using std::chrono::seconds;
 
 struct CollectedData
 {
-public:
 	unsigned int rejectedCustomerCount = 0;
 	unsigned int acceptedCustomerCount = 0;
 	duration<float> totalWaitTime = seconds(0);  // суммарное время ожидания (очередь + касса) всех клиентов
@@ -62,7 +60,7 @@ public:
 	~Shop();
 
 	void handleCustomer(const shared_ptr<Customer>& newCustomer);
-	[[nodiscard]] std::optional<CollectedData> getData() const;
+	[[nodiscard]] CollectedData getData() const;
 	void stopIfWorking();
 	[[nodiscard]] bool isWorking() const;
 };

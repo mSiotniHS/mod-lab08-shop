@@ -87,6 +87,8 @@ void Shop::workCycle()
 			cout << "Sent client #" << customer->getId() << " to checkout #" << checkout->getId() << '\n';
 			checkout->serve(customer);
 		}
+
+		std::this_thread::sleep_for(milliseconds(100));
 	}
 
 	for (auto &checkout : _checkouts)
@@ -127,14 +129,9 @@ Shop::~Shop()
 	stopIfWorking();
 }
 
-std::optional<CollectedData> Shop::getData() const
+CollectedData Shop::getData() const
 {
-	if (isWorking())
-	{
-		return std::nullopt;
-	}
-
-	return {_data};
+	return _data;
 }
 
 void Shop::stopIfWorking()

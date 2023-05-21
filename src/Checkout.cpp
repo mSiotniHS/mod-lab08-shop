@@ -44,6 +44,8 @@ void Checkout::workCycle()
 
 			_actualWorkTime += workEnd - workBegin;
 		}
+
+		std::this_thread::sleep_for(milliseconds(100));
 	}
 
 	auto end = std::chrono::steady_clock::now();
