@@ -129,14 +129,9 @@ Shop::~Shop()
 	stopIfWorking();
 }
 
-std::optional<CollectedData> Shop::getData() const
+CollectedData Shop::getData() const
 {
-	if (isWorking())
-	{
-		return std::nullopt;
-	}
-
-	return {_data};
+	return _data;
 }
 
 void Shop::stopIfWorking()

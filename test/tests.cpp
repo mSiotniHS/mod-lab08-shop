@@ -137,20 +137,18 @@ TEST(ShopTests, scenario1)
 	try {
 		Shop shop(2, milliseconds(500), 2);
 		EXPECT_THAT(shop.isWorking(), Eq(true));
-		EXPECT_THAT(shop.getData(), Eq(std::nullopt));
 
 		shop.stopIfWorking();
 
 		EXPECT_THAT(shop.isWorking(), Eq(false));
-		EXPECT_THAT(shop.getData(), Ne(std::nullopt));
 
 		auto data = shop.getData();
 
-		EXPECT_THAT(data->rejectedCustomerCount, Eq(0));
-		EXPECT_THAT(data->acceptedCustomerCount, Eq(0));
+		EXPECT_THAT(data.rejectedCustomerCount, Eq(0));
+		EXPECT_THAT(data.acceptedCustomerCount, Eq(0));
 	} catch (const std::system_error& e) {
 		std::cout << "Caught system_error with code " << e.code()
-				  << " meaning " << e.what() << '\n';
+		          << " meaning " << e.what() << '\n';
 	} catch (const std::exception& e) {
 		std::cout << "Caught generic error: " << e.what() << '\n';
 	}
@@ -175,12 +173,12 @@ TEST(ShopTests, scenario2)
 
 		auto data = shop.getData();
 
-		EXPECT_THAT(data->acceptedCustomerCount, Eq(4));
-		EXPECT_THAT(data->rejectedCustomerCount, Eq(1));
-		EXPECT_THAT((double) std::reduce(data->queueSizeSamples.begin(), data->queueSizeSamples.end()) / data->queueSizeSamples.size(), DoubleNear(1.8, 0.2));
+		EXPECT_THAT(data.acceptedCustomerCount, Eq(4));
+		EXPECT_THAT(data.rejectedCustomerCount, Eq(1));
+		EXPECT_THAT((double) std::reduce(data.queueSizeSamples.begin(), data.queueSizeSamples.end()) / data.queueSizeSamples.size(), DoubleNear(1.8, 0.2));
 	} catch (const std::system_error& e) {
 		std::cout << "Caught system_error with code " << e.code()
-				  << " meaning " << e.what() << '\n';
+		          << " meaning " << e.what() << '\n';
 	} catch (const std::exception& e) {
 		std::cout << "Caught generic error: " << e.what() << '\n';
 	}

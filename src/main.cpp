@@ -51,15 +51,15 @@ int main()
 	          << "absolute throughput: " << theoreticalStats.absoluteThroughput << '\n';
 
 	std::cout << "\nDATA:\n"
-	          << "rejected customer count: " << data->rejectedCustomerCount << '\n'
-	          << "accepted customer count: " << data->acceptedCustomerCount << '\n'
-	          << "avg queue length: " << (double) std::reduce(data->queueSizeSamples.begin(), data->queueSizeSamples.end()) / data->queueSizeSamples.size()  << '\n'
-	          << "avg client service time (queue + checkout): " << (data->totalWaitTime / data->acceptedCustomerCount).count() << "s\n"
-	          << "avg checkout work time: " << (data->actualWorkTimeAcrossCheckouts / checkoutCount).count() << "s\n"
-	          << "avg checkout idle time: " << ((data->totalOperationTimeAcrossCheckouts - data->actualWorkTimeAcrossCheckouts) / checkoutCount).count() << "s\n";
+	          << "rejected customer count: " << data.rejectedCustomerCount << '\n'
+	          << "accepted customer count: " << data.acceptedCustomerCount << '\n'
+	          << "avg queue length: " << (double) std::reduce(data.queueSizeSamples.begin(), data.queueSizeSamples.end()) / data.queueSizeSamples.size()  << '\n'
+	          << "avg client service time (queue + checkout): " << (data.totalWaitTime / data.acceptedCustomerCount).count() << "s\n"
+	          << "avg checkout work time: " << (data.actualWorkTimeAcrossCheckouts / checkoutCount).count() << "s\n"
+	          << "avg checkout idle time: " << ((data.totalOperationTimeAcrossCheckouts - data.actualWorkTimeAcrossCheckouts) / checkoutCount).count() << "s\n";
 
-	double actualArrivalRate = (double) (data->acceptedCustomerCount + data->rejectedCustomerCount) / workDuration.count();
-	double actualRejectionProbability = (double) data->rejectedCustomerCount / ( data->acceptedCustomerCount + data->rejectedCustomerCount );
+	double actualArrivalRate = (double) (data.acceptedCustomerCount + data.rejectedCustomerCount) / workDuration.count();
+	double actualRejectionProbability = (double) data.rejectedCustomerCount / ( data.acceptedCustomerCount + data.rejectedCustomerCount );
 	double actualRelativeThroughput = 1 - actualRejectionProbability;
 	double actualAbsoluteThroughput = actualArrivalRate * actualRelativeThroughput;
 
