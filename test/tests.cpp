@@ -143,10 +143,10 @@ TEST(ShopTests, scenario1)
 	EXPECT_THAT(shop.isWorking(), Eq(false));
 	EXPECT_THAT(shop.getData(), Ne(std::nullopt));
 
-//	auto data = shop.getData().value();
-//
-//	EXPECT_THAT(data.rejectedCustomerCount, Eq(0));
-//	EXPECT_THAT(data.acceptedCustomerCount, Eq(0));
+	auto data = shop.getData();
+
+	EXPECT_THAT(data->rejectedCustomerCount, Eq(0));
+	EXPECT_THAT(data->acceptedCustomerCount, Eq(0));
 }
 
 TEST(ShopTests, scenario2)
