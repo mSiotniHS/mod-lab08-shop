@@ -151,6 +151,8 @@ TEST(ShopTests, scenario1)
 	} catch (const std::system_error& e) {
 		std::cout << "Caught system_error with code " << e.code()
 				  << " meaning " << e.what() << '\n';
+	} catch (const std::exception& e) {
+		std::cout << "Caught generic error: " << e.what() << '\n';
 	}
 }
 
@@ -179,6 +181,8 @@ TEST(ShopTests, scenario2)
 	} catch (const std::system_error& e) {
 		std::cout << "Caught system_error with code " << e.code()
 				  << " meaning " << e.what() << '\n';
+	} catch (const std::exception& e) {
+		std::cout << "Caught generic error: " << e.what() << '\n';
 	}
 }
 //endregion
