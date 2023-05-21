@@ -165,10 +165,10 @@ TEST(ShopTests, scenario2)
 
 	shop.stopIfWorking();
 
-	auto data = shop.getData().value();
+	auto data = shop.getData();
 
-	EXPECT_THAT(data.acceptedCustomerCount, Eq(4));
-	EXPECT_THAT(data.rejectedCustomerCount, Eq(1));
-	EXPECT_THAT((double) std::reduce(data.queueSizeSamples.begin(), data.queueSizeSamples.end()) / data.queueSizeSamples.size(), DoubleNear(1.8, 0.2));
+	EXPECT_THAT(data->acceptedCustomerCount, Eq(4));
+	EXPECT_THAT(data->rejectedCustomerCount, Eq(1));
+	EXPECT_THAT((double) std::reduce(data->queueSizeSamples.begin(), data->queueSizeSamples.end()) / data->queueSizeSamples.size(), DoubleNear(1.8, 0.2));
 }
 //endregion
